@@ -1,16 +1,23 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
-//
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, or any plugin's
-// vendor/assets/javascripts directory can be referenced here using a relative path.
-//
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// compiled file. JavaScript code in this file should be added after the last require_* statement.
-//
-// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
-// about supported directives.
-//
-//= require rails-ujs
-//= require activestorage
-//= require turbolinks
-//= require_tree .
+$(document).ready(function() {
+    return $('form').submit(function() {
+      if ($('form').attr('action') === '/convert') {
+        $.ajax('/convert', {
+          type: 'GET',
+          dataType: 'json',
+          data: {
+            source_currency: $("#source_currency").val(),
+            target_currency: $("#target_currency").val(),
+            amount: $("#amount").val()
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            return alert(textStatus);
+          },
+          success: function(data, text, jqXHR) {
+            return $('#result').val(data.value);
+          }
+        });
+        return false;
+      }
+    });
+  });
+  
